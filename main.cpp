@@ -236,52 +236,7 @@ void FeedAll(Iterator<Cat*>* it) {
 }
 
 int main() {
-    setlocale(LC_ALL, "Russian");
-    srand(static_cast<unsigned>(time(0)));
-    size_t N = 20;
 
-    // Массив кошек
-    ArrayClass<Cat*> catArray;
-    for (size_t i = 0; i < N; i++) {
-        CatType catType = static_cast<CatType>(rand() % 3 + 1);
-        catArray.Add(CreateCat(catType));
-    }
-    cout << "Массив кошек, размер: " << catArray.Size() << endl;
-
-    // Список кошек
-    list<Cat*> catList;
-    for (size_t i = 0; i < N; i++) {
-        CatType catType = static_cast<CatType>(rand() % 3 + 1);
-        catList.push_back(CreateCat(catType));
-    }
-    cout << "Список кошек, размер: " << catList.size() << endl;
-
-    // Все кошки
-    cout << "\n--- Все кошки ---\n";
-    FeedAll(catArray.GetIterator());
-
-    // Все голодные
-    cout << "\n--- Только голодные ---\n";
-    FeedAll(new CatHungerDecorator(catArray.GetIterator(), true));
-
-    // Только черные (BritishShorthair)
-    cout << "\n--- Только черные кошки ---\n";
-    FeedAll(new CatColorDecorator(catArray.GetIterator(), CatColor::Black));
-
-    // Голодные серые кошки
-    cout << "\n--- Голодные серые кошки ---\n";
-    FeedAll(new CatHungerDecorator(
-        new CatColorDecorator(catArray.GetIterator(), CatColor::Gray), true));
-
-    // Итератор по списку
-    cout << "\n--- Голодные белые кошки из списка ---\n";
-    auto listIt = new ConstIteratorAdapter<list<Cat*>, Cat*>(&catList);
-    FeedAll(new CatHungerDecorator(
-        new CatColorDecorator(listIt, CatColor::White), true));
-
-    // Кошки с весом больше 5.0
-    cout << "\n--- Кошки с весом больше 5.0 ---\n";
-    FeedAll(new CatWeightDecorator(catArray.GetIterator(), 5.0));
 
     return 0;
 }
